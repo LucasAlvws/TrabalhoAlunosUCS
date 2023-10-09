@@ -23,12 +23,16 @@ public class Instituicao {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	/*PAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIII*/
-	public void setTurmas(String codigo, Professor professor, String nomeDiciplina) {
-		
-		this.turmas = turmas;
+	public boolean setTurmas(String codigo, Professor professor, String nomeDiciplina) {
+		Turma turma = new Turma(codigo, professor, nomeDiciplina);
+		if(this.qtdTurmas < this.NTURMAS) {
+			this.turmas[this.qtdTurmas++] = turma;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
-	/*PAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIIIPAREI AQUIIIIIIIIIIII*/
 	public Turma[] getTurmas() {
 		return turmas;
 	}
@@ -39,6 +43,21 @@ public class Instituicao {
 
 	public static int getNturmas() {
 		return NTURMAS;
+	}
+	
+	public String listaTurmas() {
+		if(this.qtdTurmas==0) {
+			return "Nenhuma turma foi registrada ainda"; 
+		}else {
+			StringBuilder retorno = new StringBuilder();
+			for(int i=0; i < this.qtdTurmas; i++) {
+				retorno.append("Código: " + this.turmas[i].getCodigo() + "\n");
+				retorno.append("Diciplina: " + this.turmas[i].getNomeDiciplina() + "\n");
+				retorno.append("Professor: " + this.turmas[i].getProfessor().getNome() + "\n");
+				retorno.append("Nmr Alunos: " + this.turmas[i].getQtdAlunos() + "\n");
+			}
+			return retorno.toString();
+		}
 	}
 
 	

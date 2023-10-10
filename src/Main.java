@@ -38,7 +38,7 @@ public class Main {
 				cadastrarTurmas();
 				break;
 			case 3:
-				System.out.println("3...");
+				listarTurmasNotas();
 				break;
 			case 4:
 				System.out.println("4...");
@@ -89,7 +89,8 @@ public class Main {
 			prof = this.instituicao.getProfessor(codProf);
 			if (prof != null && codOK == true && diciplinaOK == true) {
 				criado = this.instituicao.setTurmas(codTurma, prof, diciplina);
-				System.out.println("Cadastro dos alunos:\n");
+				System.out.println("Cadastro dos alunos");
+				System.out.println("++++++++++++++++++++++++++++++++++++++++++++");
 				if (criado == true) {
 					do {
 						System.out.println("Código do Aluno:");
@@ -121,8 +122,6 @@ public class Main {
 						System.out.println("Já excedeu o n° max de alunos.");
 					}
 					System.out.println("Turma cadastrada com sucesso.");
-					System.out.println("Pressione qualquer tecla para voltar ao menu...");
-					cmd.nextLine();
 					opcao = 2;
 				}
 				else {
@@ -142,4 +141,19 @@ public class Main {
 		
 
 	}
+	public void listarTurmasNotas() 
+	{
+		System.out.println("Detalhes Turma");
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println(this.instituicao.listaCodTurmas());
+		System.out.println("Insira o código da turma:");
+		String cod = cmd.nextLine();
+		cod = cod.toString();
+		System.out.println("\n");
+		System.out.println(this.instituicao.detalheTurma(cod));
+		System.out.println("Pressione qualquer tecla para voltar ao menu...");
+		cmd.nextLine();
+	}
 }
+
+	

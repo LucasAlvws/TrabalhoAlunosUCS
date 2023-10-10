@@ -107,6 +107,46 @@ public class Instituicao {
 		}
 	}
 	
+	public String listaCodTurmas() {
+		if(this.qtdTurmas==0) {
+			return "Nenhuma turma foi registrada ainda"; 
+		}else {
+			StringBuilder retorno = new StringBuilder();
+			for(int i=0; i < this.qtdTurmas; i++) {
+				retorno.append("Código: " + this.turmas[i].getCodigo() + " Diciplina: " + this.turmas[i].getNomeDiciplina() + "\n");
+				retorno.append("-----------\n");
+			}
+			return retorno.toString();
+		}
+	}
+	
+	
+	public String detalheTurma(String cod) {
+		StringBuilder retorno = new StringBuilder();
+		Turma turma = getTurma(cod);
+		retorno.append("Código: " + turma.getCodigo()+ "\n");
+		retorno.append("Diciplina: " + turma.getNomeDiciplina()+ "\n");
+		retorno.append("Professor: " + turma.getProfessor().getNome()+ "\n");
+		retorno.append("Alunos:\n");
+		for(int i=0; i < turma.getQtdAlunos();i++) {
+			AlunoNota aluno = turma.getAluno()[i];
+			double media = aluno.getN1()+aluno.getN2()+aluno.getN3()/3;
+			retorno.append("---\n");
+			retorno.append("Nome: " + aluno.getAluno().getNome() + "\n");
+			retorno.append("N1: " + aluno.getN1() + "\n");
+			retorno.append("N2: " + aluno.getN2() + "\n");
+			retorno.append("N3: " + aluno.getN3() + "\n");
+			retorno.append("Média: " + media + "\n");
+			if(media>7) {
+				retorno.append("Situaçao: Aprovado\n");
+			}
+			else {
+				retorno.append("Situaçao: Reprovado\n");
+			}
+		}
+		return retorno.toString();
+	}
+	
 	public Professor getProfessor(String codigo) {
 		for(Professor i : this.professores) {
 			if (i.getCodigo().equalsIgnoreCase(codigo)) {

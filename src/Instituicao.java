@@ -1,16 +1,31 @@
 
 public class Instituicao {
 	private static final int NTURMAS = 5;
+	private static final int NPROF = 5;
+	private static final int NCUR = 4;
 	
 	private String nome;
+	private Professor[] professores;
 	private Turma[] turmas;
+	private Curso[] cursos;
 	private int qtdTurmas;
 	
 	private Instituicao() {
 		this.turmas = new Turma[NTURMAS];
 		this.qtdTurmas = 0;
+		this.professores = new Professor[NPROF];
+		this.professores[0] = new Professor("7B8F", "Lucas Alves", "lalves@ucs.br", "Ciência da Computação");
+		this.professores[1] = new Professor("5D6S", "Guilherme Maieron", "gbmaieron@ucs.br", "Engenharia da Computação");
+		this.professores[2] = new Professor("9A2Q", "Ana Paula", "anap@ucs.br", "Análise de Sistemas");
+		this.professores[3] = new Professor("3C1A", "Nicoly Rosa", "nrosa@ucs.br", "Ciência da Computação");
+		this.professores[4] = new Professor("4M8Y", "Lucca Drum", "ldrum@ucs.br", "Engenharia de Software");
+		this.cursos = new Curso[NCUR];
+		this.cursos[0] = new Curso("Ciência de Computação", 1);
+		this.cursos[1] = new Curso("Engenharia de Software", 2);
+		this.cursos[2] = new Curso("Engenharia de Computação", 3);
+		this.cursos[3] = new Curso("Análise e Desenvolvimento de Sistemas", 4);
 	}
-	
+
 	public Instituicao(String nome) {
 		this();
 		this.nome = nome;
@@ -45,6 +60,37 @@ public class Instituicao {
 		return NTURMAS;
 	}
 	
+	
+	public String listarProfessores() {
+		StringBuilder retorno = new StringBuilder();
+		for(int i=0; i < this.NPROF; i++) {
+			retorno.append("-\n");
+			retorno.append("Código: " + this.professores[i].getCodigo() + " Nome: " + this.professores[i].getNome() + "\n");
+			
+		}
+		retorno.append("-------------------\n");
+		return retorno.toString();
+	}
+	
+	public String listarCursos() {
+		StringBuilder retorno = new StringBuilder();
+		for(int i=0; i < this.NCUR; i++) {
+			retorno.append("-\n");
+			retorno.append("Código: " + this.cursos[i].getCodigo() + " Nome: " + this.cursos[i].getNome() + "\n");
+			
+		}
+		retorno.append("-------------------\n");
+		return retorno.toString();
+	}
+
+	public Professor[] getProfessores() {
+		return professores;
+	}
+
+	public static int getNprof() {
+		return NPROF;
+	}
+	
 	public String listaTurmas() {
 		if(this.qtdTurmas==0) {
 			return "Nenhuma turma foi registrada ainda"; 
@@ -55,11 +101,47 @@ public class Instituicao {
 				retorno.append("Diciplina: " + this.turmas[i].getNomeDiciplina() + "\n");
 				retorno.append("Professor: " + this.turmas[i].getProfessor().getNome() + "\n");
 				retorno.append("Nmr Alunos: " + this.turmas[i].getQtdAlunos() + "\n");
+				retorno.append("-----------\n");
 			}
 			return retorno.toString();
 		}
 	}
-
+	
+	public Professor getProfessor(String codigo) {
+		for(Professor i : this.professores) {
+			if (i.getCodigo().equalsIgnoreCase(codigo)) {
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	public Curso getCursos(int codigo) {
+		for(Curso i : this.cursos) {
+			if (i.getCodigo() == codigo) {
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	public Turma getTurma(String codigo) {
+		for(Turma i : this.turmas) {
+			if (i.getCodigo().equalsIgnoreCase(codigo)) {
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	public boolean setAlunos(String codTurma, String codAluno, int codCurso, String nomeAluno, String emailAluno, double n1, double n2, double n3) {
+		Turma turma = getTurma(codTurma);
+		Curso curso = getCursos(codCurso);
+		Aluno aluno = new Aluno(codAluno, nomeAluno, emailAluno, curso);
+		AlunoNota alunoNota = new AlunoNota(aluno, n1, n2, n3);
+		boolean set = turma.setAlunos(alunoNota);
+		return set;
+	}
 	
 	
 }

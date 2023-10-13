@@ -8,22 +8,20 @@ public class Instituicao {
 	private Professor[] professores;
 	private Turma[] turmas;
 	private Curso[] cursos;
-	private int qtdTurmas;
+	private int qtdTurmas, qtdProfessores, qtdCursos;
 	
 	private Instituicao() {
 		this.turmas = new Turma[NTURMAS];
 		this.qtdTurmas = 0;
 		this.professores = new Professor[NPROF];
-		this.professores[0] = new Professor("7B8F", "Lucas Alves", "lalves@ucs.br", "Ciência da Computação");
-		this.professores[1] = new Professor("5D6S", "Guilherme Maieron", "gbmaieron@ucs.br", "Engenharia da Computação");
-		this.professores[2] = new Professor("9A2Q", "Ana Paula", "anap@ucs.br", "Análise de Sistemas");
-		this.professores[3] = new Professor("3C1A", "Nicoly Rosa", "nrosa@ucs.br", "Ciência da Computação");
-		this.professores[4] = new Professor("4M8Y", "Lucca Drum", "ldrum@ucs.br", "Engenharia de Software");
+		this.qtdProfessores = 0;
 		this.cursos = new Curso[NCUR];
-		this.cursos[0] = new Curso("Ciência de Computação", 1);
-		this.cursos[1] = new Curso("Engenharia de Software", 2);
-		this.cursos[2] = new Curso("Engenharia de Computação", 3);
-		this.cursos[3] = new Curso("Análise e Desenvolvimento de Sistemas", 4);
+		this.qtdCursos = 0;
+		this.cursos[qtdCursos++] = new Curso("Ciência de Computação", 1);
+		this.cursos[qtdCursos++] = new Curso("Engenharia de Software", 2);
+		this.cursos[qtdCursos++] = new Curso("Engenharia de Computação", 3);
+		this.cursos[qtdCursos++] = new Curso("Análise e Desenvolvimento de Sistemas", 4);
+		
 	}
 
 	public Instituicao(String nome) {
@@ -56,25 +54,62 @@ public class Instituicao {
 		return qtdTurmas;
 	}
 
+	public int getQtdProfessores() {
+		return qtdProfessores;
+	}
+
+	public int getQtdCursos() {
+		return qtdCursos;
+	}
+
 	public static int getNturmas() {
 		return NTURMAS;
 	}
 	
 	
 	public String listarProfessores() {
-		StringBuilder retorno = new StringBuilder();
-		for(int i=0; i < this.NPROF; i++) {
-			retorno.append("-\n");
-			retorno.append("Código: " + this.professores[i].getCodigo() + " Nome: " + this.professores[i].getNome() + "\n");
-			
+		if (this.qtdProfessores == 0)
+		{	
+			return "Nenhum professor foi registrado ainda"; 
 		}
-		retorno.append("-------------------\n");
-		return retorno.toString();
+		else
+		{
+			StringBuilder retorno = new StringBuilder();
+			for(int i=0; i < this.qtdProfessores; i++) {
+				retorno.append("-\n");
+				retorno.append("Código: " + this.professores[i].getCodigo() + " Nome: " + this.professores[i].getNome() + "\n");
+				
+			}
+			retorno.append("-------------------\n");
+			return retorno.toString();
+		}
+	}
+
+	public boolean addCurso(Curso curso) {
+		if(qtdCursos < NCUR) {
+			this.cursos[this.qtdCursos++] = curso;
+			return true;
+		}
+		
+		return false;
+	}
+
+	public boolean addProfessor(Professor prof) {
+		if(qtdProfessores < NPROF) {
+			this.professores[this.qtdProfessores++] = prof;
+			return true;
+		}
+		return false;
 	}
 	
 	public String listarCursos() {
+		if (this.qtdCursos == 0)
+		{
+			return "Nenhum curso foi registrado ainda"; 
+		}
+	
 		StringBuilder retorno = new StringBuilder();
-		for(int i=0; i < this.NCUR; i++) {
+		for(int i=0; i < this.qtdCursos; i++) {
 			retorno.append("-\n");
 			retorno.append("Código: " + this.cursos[i].getCodigo() + " Nome: " + this.cursos[i].getNome() + "\n");
 			
@@ -94,49 +129,106 @@ public class Instituicao {
 	public String listaTurmas() {
 		if(this.qtdTurmas==0) {
 			return "Nenhuma turma foi registrada ainda"; 
-		}else {
-			StringBuilder retorno = new StringBuilder();
-			for(int i=0; i < this.qtdTurmas; i++) {
-				retorno.append("Código: " + this.turmas[i].getCodigo() + "\n");
-				retorno.append("Diciplina: " + this.turmas[i].getNomeDiciplina() + "\n");
-				retorno.append("Professor: " + this.turmas[i].getProfessor().getNome() + "\n");
-				retorno.append("Nmr Alunos: " + this.turmas[i].getQtdAlunos() + "\n");
-				retorno.append("-----------\n");
-			}
-			return retorno.toString();
 		}
+
+		StringBuilder retorno = new StringBuilder();
+		for(int i=0; i < this.qtdTurmas; i++) {
+			retorno.append("Código: " + this.turmas[i].getCodigo() + " ");
+			retorno.append("Diciplina: " + this.turmas[i].getNomeDiciplina() + " ");
+			retorno.append("Professor: " + this.turmas[i].getProfessor().getNome() + " ");
+			retorno.append("Nmr Alunos: " + this.turmas[i].getQtdAlunos() + "\n");
+			retorno.append("-----------\n");
+		}
+		return retorno.toString();
 	}
 	
 	public String listaCodTurmas() {
 		if(this.qtdTurmas==0) {
 			return "Nenhuma turma foi registrada ainda"; 
-		}else {
-			StringBuilder retorno = new StringBuilder();
-			for(int i=0; i < this.qtdTurmas; i++) {
-				retorno.append("Código: " + this.turmas[i].getCodigo() + " Diciplina: " + this.turmas[i].getNomeDiciplina() + "\n");
-				retorno.append("-----------\n");
-			}
-			return retorno.toString();
 		}
+
+		StringBuilder retorno = new StringBuilder();
+		for(int i=0; i < this.qtdTurmas; i++) {
+			retorno.append("Código: " + this.turmas[i].getCodigo() + " Diciplina: " + this.turmas[i].getNomeDiciplina() + "\n");
+			retorno.append("-----------\n");
+		}
+		return retorno.toString();
 	}
-	
+
+
+	public String detalhesGeral() {
+		if (this.qtdTurmas == 0)
+		{
+			return ("Nenhuma turma foi registrada ainda");
+		}
+
+		StringBuilder retorno = new StringBuilder();
+		int nAprovadosGeral = 0;
+		int nReprovadosGeral = 0;
+		int qtdAlunosGeral = 0;
+
+		retorno.append("--------LISTAGEM DAS TURMAS--------\n");
+		for (int i =0; i < this.qtdTurmas; i ++)
+		{	
+			int nAprovadosTurma = 0;
+			int nReprovadosTurma = 0;
+
+			Turma turma = this.turmas[i];
+			retorno.append("\n");
+			retorno.append("Código: " + turma.getCodigo() + " ");
+			retorno.append("Disciplina: " + turma.getNomeDiciplina() + " ");
+			retorno.append("Professor: " + turma.getProfessor() + " ");
+			retorno.append("Quantidade alunos: " + turma.getQtdAlunos() + "\n");
+
+			for(int iTurma=0; iTurma < turma.getQtdAlunos(); iTurma++) {
+				AlunoNota aluno = turma.getAluno()[i];
+				double media = aluno.getN1()+aluno.getN2()+aluno.getN3()/3;
+				if(media>7) {
+					nAprovadosTurma++;
+					nAprovadosGeral++;
+				}
+				else {
+					nReprovadosTurma++;
+					nReprovadosGeral++;
+				}
+				qtdAlunosGeral++;
+			}	
+			retorno.append("Nº alunos aprovados: " + nAprovadosTurma + "\n");
+			retorno.append("Nº alunos reprovados: " + nReprovadosTurma + "\n");
+
+			double taxaAprovacaoTurma = nAprovadosTurma * 100 / turma.getQtdAlunos(); 
+
+			retorno.append("Taxa de aprovação na turma: " + String.format("%.2f", taxaAprovacaoTurma) + "% \n");
+		}
+		
+		retorno.append("\n--------NOTAS DA INSTITUIÇÃO--------\n");
+
+		retorno.append("Quantidade de alunos na instituição: " + qtdAlunosGeral + "\n");
+
+		double taxaAprovacaoGeral = nAprovadosGeral * 100 / qtdAlunosGeral; 
+		retorno.append("Taxa de aprovação na instituição: " + String.format("%.2f", taxaAprovacaoGeral) + "% \n");
+		
+		return retorno.toString();
+	}
 	
 	public String detalheTurma(String cod) {
 		StringBuilder retorno = new StringBuilder();
 		Turma turma = getTurma(cod);
+	
 		retorno.append("Código: " + turma.getCodigo()+ "\n");
 		retorno.append("Diciplina: " + turma.getNomeDiciplina()+ "\n");
 		retorno.append("Professor: " + turma.getProfessor().getNome()+ "\n");
+		retorno.append("-----------------------------------------\n");
 		retorno.append("Alunos:\n");
 		for(int i=0; i < turma.getQtdAlunos();i++) {
 			AlunoNota aluno = turma.getAluno()[i];
-			double media = aluno.getN1()+aluno.getN2()+aluno.getN3()/3;
+			double media = (aluno.getN1()+aluno.getN2()+aluno.getN3())/3;
 			retorno.append("---\n");
-			retorno.append("Nome: " + aluno.getAluno().getNome() + "\n");
-			retorno.append("N1: " + aluno.getN1() + "\n");
-			retorno.append("N2: " + aluno.getN2() + "\n");
-			retorno.append("N3: " + aluno.getN3() + "\n");
-			retorno.append("Média: " + media + "\n");
+			retorno.append("Nome: " + aluno.getAluno().getNome() + " ");
+			retorno.append("N1: " + aluno.getN1() + " ");
+			retorno.append("N2: " + aluno.getN2() + " ");
+			retorno.append("N3: " + aluno.getN3() + " ");
+			retorno.append("Média: " + String.format("%.2f", media) + " ");
 			if(media>7) {
 				retorno.append("Situaçao: Aprovado\n");
 			}

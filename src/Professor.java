@@ -12,6 +12,7 @@ public class Professor extends Pessoa{
 	
 	public Professor() {
 	}
+	
 	public String getProfissao() {
 		return formacao;
 	}
